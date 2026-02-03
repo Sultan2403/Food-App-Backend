@@ -17,7 +17,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  if (["POST", "PUT", "PATCH", "DELET"].includes(req.method)) {
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) {
     if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({ success: false, message: "Bad request" });
     }
