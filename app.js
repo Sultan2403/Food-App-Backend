@@ -16,17 +16,16 @@ app.use(
   }),
 );
 
-app.use(express.json());
-
 app.use((req, res, next) => {
-  if (["POST", "PUT", "PATCH"].includes(req.method)) {
+  if (["POST", "PUT", "PATCH", "DELET"].includes(req.method)) {
     if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ success: false, message: "Empty body" });
+      return res.status(400).json({ success: false, message: "Bad request" });
     }
   }
   next();
 });
 
+app.use(express.json());
 
 app.use("/users", userRouter);
 app.use("/restaurants", restaurantRouter);
