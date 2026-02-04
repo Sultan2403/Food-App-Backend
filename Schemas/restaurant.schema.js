@@ -21,6 +21,8 @@ const restaurantSchema = Joi.object({
     .items(Joi.string().valid(...RESTAURANT_TYPES))
     .min(1)
     .required(),
-}).options({ stripUnknown: true });
+})
+  .required()
+  .options({ stripUnknown: true });
 
 module.exports = { restaurantSchema };

@@ -57,6 +57,7 @@ const orderSchema = new Schema(
       type: String,
       enum: ORDER_STATUSES,
       default: "pending",
+      required: true
     },
   },
   {
