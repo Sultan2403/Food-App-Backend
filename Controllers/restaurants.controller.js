@@ -1,8 +1,7 @@
 const restaurantCollection = require("../DB/Models/restaurant.model");
 
-
 const addNewRestaurant = async (req, res) => {
-  const { email } = req.body;
+  const { email, password, ...extras } = req.body;
   try {
     const existing = await restaurantCollection.findOne({ email: email });
 
@@ -12,9 +11,13 @@ const addNewRestaurant = async (req, res) => {
         .json({ success: false, message: "Restaurant exists already" });
     }
 
-    const created = await restaurantCollection.create(req.body);
+    const hashedPwd = await bcrypt.hash(password, 10);
+    const finalData = { password: hashedPwd, email, ...extras };
+    await restaurantCollection.create(finalData);
 
-    res.status(201).json({ success: true, created });
+    res
+      .status(201)
+      .json({ success: true, message: "Restaurant created successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "An error occured" });

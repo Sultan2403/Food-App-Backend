@@ -14,7 +14,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const addNewUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password, ...extras } = req.body;
 
   try {
     const userExists = await usersCollection.findOne({ email });
@@ -26,14 +26,16 @@ const addNewUser = async (req, res) => {
     }
 
     const hashedPwd = await bcrypt.hash(password, 10);
-    const created = await usersCollection.create({
-      name,
+    await usersCollection.create({
       email,
       password: hashedPwd,
+      extras,
     });
-    res
-      .status(201)
-      .json({ success: true, message: "User created successfully", created });
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "An error occured" });
