@@ -1,0 +1,1 @@
+// API Layer validation for registering an item from a res.

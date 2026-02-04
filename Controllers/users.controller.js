@@ -1,5 +1,5 @@
-const usersCollection = require("../DB/Models/user.schema");
-const mongoose = require("mongoose");
+const usersCollection = require("../DB/Models/user.model");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -17,17 +17,19 @@ const addNewUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const userExists = await usersCollection.findOne({ email: email });
+    const userExists = await usersCollection.findOne({ email });
 
     if (userExists) {
       return res
         .status(403)
         .json({ success: false, message: "User already exists." });
     }
+
+    const hashedPwd = await bcrypt.hash(password, 10);
     const created = await usersCollection.create({
       name,
       email,
-      password,
+      password: hashedPwd,
     });
     res
       .status(201)

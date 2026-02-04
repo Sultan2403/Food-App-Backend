@@ -1,16 +1,19 @@
-const restaurantCollection = require("../DB/Models/restaurant.schema");
-const mongoose = require("mongoose");
+const restaurantCollection = require("../DB/Models/restaurant.model");
+
 
 const addNewRestaurant = async (req, res) => {
   const { email } = req.body;
   try {
     const existing = await restaurantCollection.findOne({ email: email });
 
-    if (existing)
+    if (existing) {
       return res
         .status(403)
         .json({ success: false, message: "Restaurant exists already" });
+    }
+
     const created = await restaurantCollection.create(req.body);
+
     res.status(201).json({ success: true, created });
   } catch (err) {
     console.error(err);
