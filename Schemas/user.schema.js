@@ -35,6 +35,6 @@ const userSchema = Joi.object({
   name: name,
   email: email,
   password: password,
-}).options({ stripUnknown: true });
+}).required().min(1).options({ stripUnknown: true });
 
 module.exports =  userSchema ;
