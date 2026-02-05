@@ -1,4 +1,5 @@
 const restaurantCollection = require("../DB/Models/restaurant.model");
+const hashRounds = Number(process.env.HASHING_ROUNDS);
 
 const addNewRestaurant = async (req, res) => {
   const { email, password, ...extras } = req.body;
@@ -11,7 +12,7 @@ const addNewRestaurant = async (req, res) => {
         .json({ success: false, message: "Restaurant exists already" });
     }
 
-    const hashedPwd = await bcrypt.hash(password, 10);
+    const hashedPwd = await bcrypt.hash(password, hashRounds );
     const finalData = { password: hashedPwd, email, ...extras };
     await restaurantCollection.create(finalData);
 
