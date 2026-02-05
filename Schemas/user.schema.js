@@ -4,7 +4,7 @@ const name = Joi.string()
   .trim()
   .min(3)
   .max(100)
-  .pattern(/^[\p{L}\p{M}'\.\-\s]+$/u)
+  .pattern(/^[\p{L}\p{M}\d'’\.\-\s]+$/u)
   .required()
   .messages({
     "string.empty": "Name is required",
@@ -15,9 +15,12 @@ const name = Joi.string()
 const email = Joi.string()
   .trim()
   .lowercase()
-  .email()
+  .email({ tlds: { allow: false } })
   .required()
-  .messages({ "string.email": "Email must be a valid email address" });
+  .messages({
+    "string.email": "Email must be a valid email address",
+    "string.empty": "Email is required",
+  });
 
 const password = Joi.string()
   .min(8)
@@ -25,16 +28,19 @@ const password = Joi.string()
   .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)
   .required()
   .messages({
+    "string.empty": "Password is required",
     "string.min": "Password must be at least 8 characters",
     "string.max": "Password must be at most 128 characters",
     "string.pattern.base":
-      "Password must include upper, lower, number and special character",
+      "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
   });
 
 const userSchema = Joi.object({
   name: name,
   email: email,
   password: password,
-}).required().min(1).options({ stripUnknown: true });
+})
+  .required()
+  .options({ stripUnknown: true });
 
-module.exports =  userSchema ;
+module.exports = userSchema;
