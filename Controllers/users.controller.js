@@ -1,6 +1,6 @@
 const usersCollection = require("../DB/Models/user.model");
 const bcrypt = require("bcryptjs");
-const hashRounds = Number(process.env.HASHING_ROUNDS);
+const hashRounds = 10
 
 const getAllUsers = async (req, res) => {
   try {

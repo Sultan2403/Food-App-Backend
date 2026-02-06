@@ -13,6 +13,7 @@ const itemSchema = new Schema(
     restaurantId: {
       type: Schema.Types.ObjectId,
       ref: "Restaurant",
+      trim: true,
       required: true,
       validate: {
         validator: async function (id) {

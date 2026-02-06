@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ORDER_STATUSES = [
-  "pending", // created, not yet confirmed
-  "confirmed", // accepted / locked
+  "pending",
+  "confirmed", 
   "preparing",
   "ready",
   "picked_up",
@@ -40,7 +40,7 @@ const orderSchema = new Schema(
         },
 
         price: {
-          type: Number, // snapshot at order time
+          type: Number,
           required: true,
           min: 0,
         },
@@ -57,7 +57,33 @@ const orderSchema = new Schema(
       type: String,
       enum: ORDER_STATUSES,
       default: "pending",
-      required: true
+      required: true,
+    },
+
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+
+    paidAt: { type: Date, default: null },
+
+    paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid", "failed", "cancelled"],
+    },
+
+    paymentMethod: {
+      type: String,
+      enum: ["card", "transfer"],
+      default: "card"
+    },
+
+    paymentReference: {
+      type: String,
+    },
+
+    paymentAccessCode: {
+      type: String,
     },
   },
   {
