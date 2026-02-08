@@ -1,6 +1,6 @@
 const usersCollection = require("../DB/Models/user.model");
 const bcrypt = require("bcryptjs");
-const hashRounds = 10
+const hashRounds = 10;
 
 const getAllUsers = async (req, res) => {
   try {
@@ -15,20 +15,11 @@ const getAllUsers = async (req, res) => {
 };
 
 const addNewUser = async (req, res) => {
-  const { email, password, ...extras } = req.body;
+  const { password, ...extras } = req.body;
 
   try {
-    const userExists = await usersCollection.findOne({ email });
-
-    if (userExists) {
-      return res
-        .status(403)
-        .json({ success: false, message: "User already exists." });
-    }
-
     const hashedPwd = await bcrypt.hash(password, hashRounds);
-    await usersCollection.create({
-      email,
+    const user = await usersCollection.create({
       password: hashedPwd,
       extras,
     });
@@ -36,13 +27,17 @@ const addNewUser = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
+      user: user.toJSON(),
     });
   } catch (error) {
+    console.error(error, error.message);
+     if (error.code === 11000) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User already registered" });
+    }
     console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "An error occured",
-    });
+    res.status(500).json({ success: false, message: "An error occurred" });
   }
 };
 
