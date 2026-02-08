@@ -1,6 +1,8 @@
 const usersCollection = require("../DB/Models/user.model");
 const bcrypt = require("bcryptjs");
 const hashRounds = 10;
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 const getAllUsers = async (req, res) => {
   try {
@@ -41,4 +43,39 @@ const addNewUser = async (req, res) => {
   }
 };
 
-module.exports = { addNewUser, getAllUsers };
+
+const loginUser = async (req, res) => {
+  try {
+    const { password, email } = req.body;
+    const existingUser = await usersCollection
+      .findOne({ email })
+      .select("+password");
+
+    if (!existingUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const pwdsMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!pwdsMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid password" });
+    }
+
+    const user = existingUser.toJSON();
+
+    const token = jwt.sign({ id: user.id, email }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.status(200).json({ success: true, user, token });
+  } catch (error) {
+    console.error(error, error.message);
+    return res.status(500).json({ success: false, message: "An error ossured" });
+  }
+};
+
+module.exports = { addNewUser, getAllUsers, loginUser };
