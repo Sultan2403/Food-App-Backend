@@ -2,6 +2,7 @@ const usersCollection = require("../DB/Models/user.model");
 const bcrypt = require("bcryptjs");
 const hashRounds = 10;
 const JWT_SECRET = process.env.JWT_SECRET;
+const jwt = require("jsonwebtoken")
 
 
 const getAllUsers = async (req, res) => {
