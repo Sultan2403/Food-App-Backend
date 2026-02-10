@@ -17,7 +17,7 @@ app.use(
   }),
 );
 
-app.use(express.json()); // Parse first
+app.use(express.json()); 
 
 app.use("/users", userRouter);
 app.use("/restaurants", restaurantRouter);
