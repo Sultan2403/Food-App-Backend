@@ -12,7 +12,7 @@ const orderSchema = Joi.object({
   items: Joi.array()
     .items(
       Joi.object({
-        itemId: mongooseId.required(),
+        id: mongooseId.required(),
         quantity: Joi.number().integer().min(1).required(),
       }),
     )
@@ -22,4 +22,4 @@ const orderSchema = Joi.object({
   .required()
   .options({ stripUnknown: true });
 
-module.exports = orderSchema;
+module.exports = {orderSchema};

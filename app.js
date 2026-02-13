@@ -7,6 +7,7 @@ const restaurantRouter = require("./Routers/restaurant.route");
 const cors = require("cors");
 const connectDB = require("./DB/Connections/db.connect");
 const { errors } = require("celebrate");
+const orderRouter = require("./Routers/orders.route");
 
 
 connectDB();
@@ -20,6 +21,7 @@ app.use(
 app.use(express.json()); 
 
 app.use("/users", userRouter);
+app.use("/orders", orderRouter);
 app.use("/restaurants", restaurantRouter);
 
 app.get("/health", (req, res) => {

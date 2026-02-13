@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { addNewUser, getAllUsers } = require("../Controllers/users.controller");
+const { addNewUser, getAllUsers, loginUser } = require("../Controllers/users.controller");
 const { celebrate } = require("celebrate");
 const { registerSchema, loginSchema } = require("../Schemas/user.schema");
 
