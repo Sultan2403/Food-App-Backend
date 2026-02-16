@@ -3,7 +3,7 @@ const router = express.Router();
 const { celebrate } = require("celebrate");
 const { createNewOrder } = require("../Controllers/orders.controller");
 const { orderSchema } = require("../Schemas/orders.schema");
-const authMiddleware = require("../Middlewares/user.auth");
+const authMiddleware = require("../Middlewares/Auth/user.auth");
 
 router.post(
   "/",

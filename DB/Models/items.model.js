@@ -35,6 +35,10 @@ const itemSchema = new Schema(
       required: true,
       min: 1,
     },
+
+    imageUrl:{
+      type: String,
+    }
   },
   {
     timestamps: true,

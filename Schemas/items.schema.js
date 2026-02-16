@@ -1,1 +1,28 @@
-// API Layer validation for registering an item from a res.
+const Joi = require("joi");
+const mongoose = require("mongoose");
+
+// reusable ObjectId validator
+const objectId = Joi.string()
+  .custom((value, helpers) => {
+    if (!mongoose.Types.ObjectId.isValid(value)) {
+      return helpers.error("any.invalid");
+    }
+    return value;
+  })
+  .messages({
+    "any.invalid": "Invalid ID",
+  });
+
+const itemSchema = Joi.object({
+  name: Joi.string().trim().min(1).max(255).required(),
+
+  restaurantId: objectId.required(),
+
+  price: Joi.number().min(0).required(),
+
+  quantity: Joi.number().integer().min(1).required(),
+
+  imageUrl: Joi.string().uri().optional().allow(null, ""),
+}).strict(); // disallow extra fields
+
+module.exports = itemSchema;
