@@ -3,11 +3,11 @@ const router = express.Router();
 const { celebrate } = require("celebrate");
 const { createNewOrder } = require("../Controllers/orders.controller");
 const { orderSchema } = require("../Schemas/orders.schema");
-const authMiddleware = require("../Middlewares/Auth/user.auth");
+const userAuthMiddleware = require("../Middlewares/Auth/user.auth");
 
 router.post(
   "/",
-  [authMiddleware, celebrate({ body: orderSchema })],
+  [userAuthMiddleware, celebrate({ body: orderSchema })],
   createNewOrder,
 );
 
