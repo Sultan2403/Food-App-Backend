@@ -22,7 +22,10 @@ const itemSchema = Joi.object({
 
   quantity: Joi.number().integer().min(1).required(),
 
-  imageUrl: Joi.string().uri().optional().allow(null, ""),
-}).strict(); // disallow extra fields
+  //   imageUrl: Joi.string().uri().optional().allow(null, ""),
+})
+  .strict()
+  .required()
+  .options({ stripUnknown: true }); // disallow extra fields
 
 module.exports = itemSchema;
