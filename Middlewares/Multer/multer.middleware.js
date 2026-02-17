@@ -4,7 +4,7 @@ const path = require("path");
 
 // Set storage
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => callback(null, "uploads"),
+  destination: (req, file, callback) => callback(null, "Uploads"),
   filename: (req, file, callback) => {
     const uniqueSuffix = uuidv4(); // Generates a rand string
     const fileExtension = path.extname(file.originalname);

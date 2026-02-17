@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const { Joi } = require("celebrate");
 const mongoose = require("mongoose");
 
 // reusable ObjectId validator
@@ -18,11 +18,9 @@ const itemSchema = Joi.object({
 
   restaurantId: objectId.required(),
 
-  price: Joi.number().min(0).required(),
-
   quantity: Joi.number().integer().min(1).required(),
 
-  //   imageUrl: Joi.string().uri().optional().allow(null, ""),
+   imageCover: Joi.string().uri().optional().allow(null, ""),
 })
   .strict()
   .required()

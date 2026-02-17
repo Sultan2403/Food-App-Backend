@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-
 const itemSchema = new Schema(
   {
     name: {
@@ -36,9 +35,10 @@ const itemSchema = new Schema(
       min: 1,
     },
 
-    imageUrl:{
+    imageUrl: {
       type: String,
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
