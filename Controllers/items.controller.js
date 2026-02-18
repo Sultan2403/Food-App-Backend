@@ -3,7 +3,7 @@ const itemsCollection = require("../DB/Models/items.model");
 const createNewItem = async (req, res) => {
   try {
     const itemInfo = req.body;
-    const imageUrl = req.file.filename;
+    const imageUrl = req.file?.filename || null;
     const item = await itemsCollection.create({ ...itemInfo, imageUrl });
 
     res

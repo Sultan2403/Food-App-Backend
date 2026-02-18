@@ -11,6 +11,7 @@ const orderRouter = require("./Routers/orders.route");
 const itemsRouter = require("./Routers/items.route");
 
 const path = require("path");
+const isRestaurantOwner = require("./Middlewares/Auth/restaurants.auth");
 
 connectDB();
 
@@ -23,7 +24,7 @@ app.use(
 app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "Uploads")));
-app.use("/items", itemsRouter);
+app.use("/items", isRestaurantOwner, itemsRouter);
 app.use("/users", userRouter);
 app.use("/orders", orderRouter);
 app.use("/restaurants", restaurantRouter);

@@ -17,6 +17,21 @@ const restaurantSchema = new Schema(
       trim: true,
     },
 
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      unique: true,
+      trim: true,
+      required: true,
+      validate: {
+        validator: async function (id) {
+          const exists = await mongoose.model("User").exists({ _id: id });
+          return Boolean(exists);
+        },
+        message: "Restaurant owner does not exist",
+      },
+    },
+
     email: {
       type: String,
       required: true,

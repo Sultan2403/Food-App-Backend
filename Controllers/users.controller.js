@@ -2,8 +2,7 @@ const usersCollection = require("../DB/Models/user.model");
 const bcrypt = require("bcryptjs");
 const hashRounds = 10;
 const JWT_SECRET = process.env.JWT_SECRET;
-const jwt = require("jsonwebtoken")
-
+const jwt = require("jsonwebtoken");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -17,14 +16,14 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const addNewUser = async (req, res) => {
+const registerUser = async (req, res) => {
   const { password, ...extras } = req.body;
 
   try {
     const hashedPwd = await bcrypt.hash(password, hashRounds);
     const user = await usersCollection.create({
       password: hashedPwd,
-      extras,
+      ...extras,
     });
 
     res.status(201).json({
@@ -34,7 +33,7 @@ const addNewUser = async (req, res) => {
     });
   } catch (error) {
     console.error(error, error.message);
-     if (error.code === 11000) {
+    if (error.code === 11000) {
       return res
         .status(401)
         .json({ success: false, message: "User already registered" });
@@ -43,7 +42,6 @@ const addNewUser = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred" });
   }
 };
-
 
 const loginUser = async (req, res) => {
   try {
@@ -75,8 +73,10 @@ const loginUser = async (req, res) => {
     res.status(200).json({ success: true, user, token });
   } catch (error) {
     console.error(error, error.message);
-    return res.status(500).json({ success: false, message: "An error ossured" });
+    return res
+      .status(500)
+      .json({ success: false, message: "An error ossured" });
   }
 };
 
-module.exports = { addNewUser, getAllUsers, loginUser };
+module.exports = { registerUser, getAllUsers, loginUser };

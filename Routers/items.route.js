@@ -5,7 +5,7 @@ const itemSchema = require("../Schemas/items.schema");
 const createNewItem = require("../Controllers/items.controller");
 const {
   uploadSingleImage,
-} = require("../Middlewares/Multer/multer.middleware");
+} = require("../Middlewares/Media/multer.middleware");
 
 router.post(
   "/",

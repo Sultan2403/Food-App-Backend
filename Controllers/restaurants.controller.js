@@ -3,6 +3,7 @@ const hashRounds = Number(process.env.HASHING_ROUNDS);
 
 const addNewRestaurant = async (req, res) => {
   const { email, password, ...extras } = req.body;
+  const owner = req.user.id;
   try {
     const existing = await restaurantCollection.findOne({ email: email });
 
@@ -12,8 +13,8 @@ const addNewRestaurant = async (req, res) => {
         .json({ success: false, message: "Restaurant exists already" });
     }
 
-    const hashedPwd = await bcrypt.hash(password, hashRounds );
-    const finalData = { password: hashedPwd, email, ...extras };
+    const hashedPwd = await bcrypt.hash(password, hashRounds);
+    const finalData = { password: hashedPwd, email, ...extras, owner };
     await restaurantCollection.create(finalData);
 
     res

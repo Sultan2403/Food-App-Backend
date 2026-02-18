@@ -20,7 +20,7 @@ const itemSchema = Joi.object({
 
   quantity: Joi.number().integer().min(1).required(),
 
-   imageCover: Joi.string().uri().optional().allow(null, ""),
+  price: Joi.number().integer().min(1).required()
 })
   .strict()
   .required()
