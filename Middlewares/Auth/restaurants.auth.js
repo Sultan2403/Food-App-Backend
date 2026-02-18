@@ -1,17 +1,15 @@
 const restaurantCollection = require("../../DB/Models/restaurants.model");
 
-const isRestaurantOwner = (req, res, next) => {
+const isRestaurantOwner = async (req, res, next) => {
   try {
     const owner = req.user.id;
-    const restaurant = restaurantCollection.findOne({ owner });
+    const restaurant = await restaurantCollection.findOne({ owner });
 
     if (!restaurant) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "You are not authorized to perform this action",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to perform this action",
+      });
     }
     next();
   } catch (err) {
