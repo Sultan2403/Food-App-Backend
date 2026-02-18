@@ -12,6 +12,7 @@ const itemsRouter = require("./Routers/items.route");
 
 const path = require("path");
 const isRestaurantOwner = require("./Middlewares/Auth/restaurants.auth");
+const userAuthMiddleware = require("./Middlewares/Auth/user.auth");
 
 connectDB();
 
@@ -24,10 +25,10 @@ app.use(
 app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "Uploads")));
-app.use("/items", isRestaurantOwner, itemsRouter);
+app.use("/items", userAuthMiddleware, isRestaurantOwner, itemsRouter);
 app.use("/users", userRouter);
-app.use("/orders", orderRouter);
-app.use("/restaurants", restaurantRouter);
+app.use("/orders", userAuthMiddleware, orderRouter);
+app.use("/restaurants", userAuthMiddleware, restaurantRouter);
 
 app.get("/health", (req, res) => {
   res.send("Server says Heyyyy! :)");
