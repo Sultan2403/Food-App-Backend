@@ -25,7 +25,7 @@ const upload = multer({
   },
 });
 
-const uploadSingleImage = upload.single("imageCover");
-const uploadMultipleImages = upload.array("image", 3);
+const uploadSingleImage = upload.single("image");
+const uploadMultipleImages = upload.array("images", 3);
 
 module.exports = { uploadSingleImage, uploadMultipleImages };
