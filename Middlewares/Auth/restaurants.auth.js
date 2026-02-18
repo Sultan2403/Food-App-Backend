@@ -1,4 +1,4 @@
-const restaurantCollection = require("../../DB/Models/restaurants.model");
+const restaurantCollection = require("../../DB/Models/restaurant.model");
 
 const isRestaurantOwner = async (req, res, next) => {
   try {
