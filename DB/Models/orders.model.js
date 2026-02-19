@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const ORDER_STATUSES = [
   "pending",
-  "confirmed", 
+  "confirmed",
   "preparing",
   "ready",
   "picked_up",
@@ -47,6 +47,17 @@ const orderSchema = new Schema(
       },
     ],
 
+    deliveryAddress: {
+      type: String,
+      minlength: 5,
+    },
+
+    deliveryPhone: {
+      type: String,
+      minlength: 11,
+      required: true,
+    },
+
     total: {
       type: Number,
       required: true,
@@ -70,20 +81,24 @@ const orderSchema = new Schema(
     paymentStatus: {
       type: String,
       enum: ["unpaid", "paid", "failed", "cancelled"],
+      required: true,
     },
 
     paymentMethod: {
       type: String,
       enum: ["card", "transfer"],
-      default: "card"
+      default: "card",
+      required: true,
     },
 
     paymentReference: {
       type: String,
+      required: true
     },
 
     paymentAccessCode: {
       type: String,
+      required: true,
     },
   },
   {
