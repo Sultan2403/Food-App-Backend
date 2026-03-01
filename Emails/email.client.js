@@ -1,4 +1,3 @@
-// Services/email.service.js
 const nodemailer = require("nodemailer");
 
 // ---- internal setup (hidden) ----
